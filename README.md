@@ -46,40 +46,19 @@ EchoChain solves this problem by integrating manufacturing and resale datasets t
 
 ✔ Business Insights
 
+# Tech Stack
 
-#  Tech Stack
+- Python 3.12+
+- Pandas
+- NumPy
+- PySpark
+- Matplotlib
+- Seaborn
+- Scikit-learn
+- Jupyter Notebook
+- Power BI Desktop
+- Git & GitHub
 
-| Category | Technology |
-|----------|------------|
-| Language | Python |
-| Data Processing | Pandas, PySpark |
-| Visualization | Power BI |
-| Notebook | Jupyter Notebook |
-| Version Control | Git & GitHub |
-| Dataset Source | Kaggle |
-
-#  Project Structure
-
-EchoChain/
-│
-├── data/
-│   ├── raw/
-│   ├── processed/
-│   └── final/
-│
-├── notebooks/
-│
-├── scripts/
-│
-├── dashboard/
-│
-├── reports/
-│
-├── images/
-│
-├── README.md
-│
-└── requirements.txt
 
 # 🚀 Project Setup
 ## 1. Clone Repository
@@ -110,9 +89,8 @@ pyspark
 ## 8. Download Dataset
 
 Download datasets from Kaggle.
+https://www.kaggle.com/datasets/owm4096/laptop-prices?resource=download
 
-Example:
-https://www.kaggle.com/
 
 data/raw/
 
@@ -141,30 +119,28 @@ dashboard/EchoChain.pbix
 Refresh the data source.
 
 #  Project Workflow
-
-Kaggle Dataset
-        │
-        ▼
-Data Collection
-        │
-        ▼
-Data Cleaning
-        │
-        ▼
-Feature Engineering
-        │
-        ▼
-PySpark Processing
-        │
-        ▼
-Business KPI Calculation
-        │
-        ▼
-Power BI Dashboard
-        │
-        ▼
-Business Insights
-
+                Kaggle Datasets
+                       │
+                       ▼
+                Raw CSV Files
+                       │
+                       ▼
+          Data Cleaning (Pandas)
+                       │
+                       ▼
+       Feature Engineering (Python)
+                       │
+                       ▼
+          Data Processing (PySpark)
+                       │
+                       ▼
+          Business KPI Generation
+                       │
+                       ▼
+              Final CSV Output
+                       │
+                       ▼
+              Power BI Dashboard
 
 #  Datasets
 
