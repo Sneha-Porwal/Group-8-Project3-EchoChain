@@ -81,6 +81,64 @@ EchoChain/
 │
 └── requirements.txt
 
+# 🚀 Project Setup
+## 1. Clone Repository
+git clone <repo_URL>
+cd <folder_name>
+
+## 2. Create Virtual Environment
+python -m venv venv
+venv\Scripts\activate
+
+## 3. Upgrade pip
+python -m pip install --upgrade pip
+
+## 4. Install Required Libraries
+pip install -r requirements.txt
+
+## 5. Verify Installation
+python --version
+pip --version
+pyspark --version
+
+## 6. Start Jupyter Notebook
+jupyter notebook
+
+## 7. Run PySpark
+pyspark
+
+## 8. Download Dataset
+
+Download datasets from Kaggle.
+
+Example:
+https://www.kaggle.com/
+
+data/raw/
+
+## 9. Run Data Cleaning Script
+python scripts/data_cleaning.py
+
+## 10. Run Feature Engineering
+python scripts/feature_engineering.py
+
+## 11. Run PySpark Pipeline
+python scripts/pyspark_pipeline.py
+
+## 12. Export Final Dataset
+
+The processed dataset will be saved in
+data/final/
+
+## 13. Open Power BI Dashboard
+
+Open
+
+```
+dashboard/EchoChain.pbix
+```
+
+Refresh the data source.
 
 #  Project Workflow
 
