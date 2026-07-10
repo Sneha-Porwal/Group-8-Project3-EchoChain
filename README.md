@@ -1,50 +1,53 @@
-# ♻️ EchoChain: Circular Economy & Secondary Market Lifecycle Analytics
 
-An end-to-end Data Engineering & Analytics project that analyzes the lifecycle of electronic products by combining manufacturing data with secondary market resale data to generate sustainability insights and business intelligence.
+# ♻️ EchoChain: Refurbished Laptop Market Analytics using Web Scraping, PySpark & Power BI
 
+An end-to-end **Data Engineering & Business Intelligence** project that analyzes the lifecycle of laptops by combining **manufacturer product data** with **web-scraped refurbished laptop listings**.
 
-##  Project Overview
+The project demonstrates a complete modern data pipeline including **web scraping, data cleaning, feature engineering, ETL, PySpark processing, KPI generation, and interactive Power BI dashboards**.
+
+# Project Overview
 
 Manufacturers usually lose visibility of their products after the first sale. This project aims to bridge that gap by analyzing secondary market listings and comparing them with manufacturing data to understand product lifespan, depreciation, and resale value.
 
-The project simulates a real-world enterprise analytics pipeline using Python, PySpark, and Power BI.
+EchoChain bridges this gap by combining manufacturer data with real-world refurbished laptop listings collected through web scraping. The project generates actionable insights that help businesses understand product value retention and support refurbishment and sustainability initiatives.
+
+# Problem Statement
+
+Manufacturers know everything about a product before it is sold but have limited visibility after the first sale.
+
+Without secondary market analytics, companies cannot answer important business questions such as:
+
+- Which laptop brands retain their value the longest?
+- Which products experience the highest depreciation?
+- Which refurbished products generate the highest resale value?
+- Which products should be included in refurbishment programs?
+- How sustainable is each product throughout its lifecycle?
+
+EchoChain solves these challenges using an end-to-end data engineering pipeline.
 
 
-## Problem Statement
+# Project Objectives
 
-Most manufacturers know:
+- Collect manufacturer laptop data from Kaggle
+- Scrape refurbished laptop listings using Scrapy
+- Clean and standardize datasets
+- Merge manufacturer and secondary market data
+- Perform feature engineering
+- Process large datasets using PySpark
+- Calculate business KPIs
+- Build an executive Power BI dashboard
+- Generate sustainability and resale insights
 
-- How many products they sold
-- Product specifications
-- Warranty information
+# Business Use Case
 
-But they don't know:
+Suppose Dell wants to understand what happens to its laptops after customers sell them.
 
-- Which products have the highest resale value
-- Which components fail most often
-- Which products remain valuable in the secondary market
-- How sustainable their products actually are
+EchoChain helps answer questions like:
 
-EchoChain solves this problem by integrating manufacturing and resale datasets to calculate meaningful business KPIs.
-
-
-#  Features
-
-✔ Data Cleaning
-
-✔ Data Transformation
-
-✔ Product Matching
-
-✔ Depreciation Analysis
-
-✔ Circularity Score Calculation
-
-✔ PySpark Data Processing
-
-✔ Interactive Power BI Dashboard
-
-✔ Business Insights
+- Which Dell laptops have the highest resale value?
+- Which models depreciate the fastest?
+- Which laptops are suitable for refurbishment?
+- Which configurations retain the highest
 
 # Tech Stack
 
@@ -52,15 +55,12 @@ EchoChain solves this problem by integrating manufacturing and resale datasets t
 - Pandas
 - NumPy
 - PySpark
-- Matplotlib
-- Seaborn
-- Scikit-learn
+- Scrapy
 - Jupyter Notebook
 - Power BI Desktop
 - Git & GitHub
 
-
-# 🚀 Project Setup
+# Project Setup
 ## 1. Clone Repository
 git clone <repo_URL>
 cd <folder_name>
@@ -71,6 +71,10 @@ venv\Scripts\activate
 
 ## 3. Upgrade pip
 python -m pip install --upgrade pip
+
+## 4.Run Web Scraper
+cd scrapy_project
+scrapy crawl cashify
 
 ## 4. Install Required Libraries
 pip install -r requirements.txt
@@ -86,46 +90,38 @@ jupyter notebook
 ## 7. Run PySpark
 pyspark
 
-## 8. Download Dataset
-
-Download datasets from Kaggle.
-https://www.kaggle.com/datasets/owm4096/laptop-prices?resource=download
-
-
-data/raw/
-
-## 9. Run Data Cleaning Script
+## 8. Run Data Processing Pipeline
 python scripts/data_cleaning.py
-
-## 10. Run Feature Engineering
 python scripts/feature_engineering.py
-
-## 11. Run PySpark Pipeline
 python scripts/pyspark_pipeline.py
+python scripts/kpi_calculation.py
 
-## 12. Export Final Dataset
+## 9. Export Final Dataset
 
 The processed dataset will be saved in
 data/final/
 
-## 13. Open Power BI Dashboard
+## 10. Open Power BI Dashboard
 
 Open
-
-```
 dashboard/EchoChain.pbix
-```
 
 Refresh the data source.
 
 #  Project Workflow
-                Kaggle Datasets
+               Manufacturer Kaggle Datasets
                        │
                        ▼
                 Raw CSV Files
                        │
                        ▼
-          Data Cleaning (Pandas)
+               Web Scraping (Scrapy) 
+                       │
+                       ▼
+              Refurbished Laptop Listings
+                       │
+                       ▼
+              Data Cleaning (Pandas)
                        │
                        ▼
        Feature Engineering (Python)
@@ -144,13 +140,34 @@ Refresh the data source.
 
 #  Datasets
 
-The project uses publicly available datasets from Kaggle.
+## Manufacturer Dataset
 
-Datasets include:
+**Source:** Kaggle
 
-- Laptop Specifications
-- Laptop Prices
-- Used Laptop Listings
+Contains:
+
+- Brand
+- Model
+- Processor
+- RAM
+- Storage
+- Graphics Card
+- Screen Size
+- Original Price
+
+## Refurbished Laptop Dataset
+
+**Source:** Web Scraping using Scrapy
+
+Contains:
+
+- Brand
+- Model
+- Refurbished Price
+- Product Condition
+- Storage
+- Availability
+- Seller Information (if available)
 
 # Business KPIs
 
@@ -209,6 +226,7 @@ Power BI Dashboard
 
 - Data Cleaning
 - Data Wrangling
+- Web Scrapping 
 - Feature Engineering
 - Data Engineering
 - ETL Pipeline
