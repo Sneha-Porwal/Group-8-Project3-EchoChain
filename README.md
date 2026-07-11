@@ -1,223 +1,240 @@
-# ♻️ EchoChain: Circular Economy & Secondary Market Lifecycle Analytics
+# ♻️ EchoChain: Refurbished Laptop Market Analytics using Web Scraping, MySQL, PySpark & Power BI
 
-An end-to-end Data Engineering & Analytics project that analyzes the lifecycle of electronic products by combining manufacturing data with secondary market resale data to generate sustainability insights and business intelligence.
+An end-to-end **Data Engineering & Business Intelligence** project that analyzes the lifecycle of laptops by combining **manufacturer product data** with **web-scraped refurbished laptop listings**.
 
+The project demonstrates a complete data engineering pipeline starting from **web scraping**, **database storage**, **data cleaning**, **feature engineering**, **PySpark processing**, and finally an **interactive Power BI dashboard** for business insights.
 
-##  Project Overview
+#  Project Overview
 
-Manufacturers usually lose visibility of their products after the first sale. This project aims to bridge that gap by analyzing secondary market listings and comparing them with manufacturing data to understand product lifespan, depreciation, and resale value.
+Manufacturers have complete visibility of their products until the first sale. However, after customers sell those products in the secondary market, manufacturers lose visibility into:
 
-The project simulates a real-world enterprise analytics pipeline using Python, PySpark, and Power BI.
+- Product resale value
+- Depreciation trends
+- Customer demand
+- Product condition
+- Circular economy opportunities
 
+EchoChain solves this challenge by combining manufacturer data with refurbished laptop listings collected through web scraping and generating business insights using modern data engineering technologies.
 
-## Problem Statement
+# Problem Statement
 
-Most manufacturers know:
+Manufacturers know everything about their products before they are sold.
+Once products enter the secondary market, they cannot answer questions such as:
+- Which laptop brands retain their value?
+- Which models depreciate the fastest?
+- Which products should be refurbished?
+- Which products have the highest resale demand?
 
-- How many products they sold
-- Product specifications
-- Warranty information
+EchoChain builds a complete analytics pipeline to answer these business questions.
 
-But they don't know:
+#  Project Objectives
 
-- Which products have the highest resale value
-- Which components fail most often
-- Which products remain valuable in the secondary market
-- How sustainable their products actually are
+- Collect manufacturer laptop data from Kaggle
+- Scrape refurbished laptop listings using Scrapy
+- Store both datasets in MySQL
+- Clean and standardize data
+- Merge manufacturer and market data
+- Process data using PySpark
+- Calculate business KPIs
+- Build an executive Power BI dashboard
 
-EchoChain solves this problem by integrating manufacturing and resale datasets to calculate meaningful business KPIs.
+#  Business Use Case
 
+Suppose Dell wants to understand what happens to its laptops after customers sell them.
 
-#  Features
+EchoChain helps answer questions like:
 
-✔ Data Cleaning
+- Which Dell laptops have the highest resale value?
+- Which models depreciate the fastest?
+- Which laptops are suitable for refurbishment?
+- Which configurations retain maximum market value?
+- How much value is retained after resale?
 
-✔ Data Transformation
+These insights help organizations improve refurbishment strategies and sustainability initiatives.
 
-✔ Product Matching
+#  Tech Stack
 
-✔ Depreciation Analysis
+## Programming Language
+- Python
 
-✔ Circularity Score Calculation
+## Web Scraping
+- Scrapy
 
-✔ PySpark Data Processing
+## Database
+- MySQL
 
-✔ Interactive Power BI Dashboard
-
-✔ Business Insights
-
-# Tech Stack
-
-- Python 3.12+
+## Data Processing
 - Pandas
 - NumPy
 - PySpark
-- Matplotlib
-- Seaborn
-- Scikit-learn
+
+## Database Connectivity
+- MySQL Connector
+- SQLAlchemy
+
+## Business Intelligence
+- Power BI
+
+## Development Tools
+- VS Code
 - Jupyter Notebook
-- Power BI Desktop
-- Git & GitHub
 
+## Version Control
+- Git
+- GitHub
 
-# 🚀 Project Setup
+#  Project Workflow
+Manufacturer Dataset (Kaggle)
+│
+▼
+Load into MySQL
+│
+▼
+Website
+│
+▼
+Scrapy Spider
+│
+▼
+Scraped Laptop Listings
+│
+▼
+Store in MySQL
+│
+▼
+SQL Data Integration
+│
+▼
+Data Cleaning (Pandas)
+│
+▼
+Feature Engineering
+│
+▼
+PySpark Processing
+│
+▼
+Business KPI Calculation
+│
+▼
+Analytics Dataset
+│
+▼
+Power BI Dashboard
+
+#  Datasets
+## Manufacturer Dataset
+
+**Source:** Kaggle
+Contains:
+- Brand
+- Model
+- Processor
+- RAM
+- Storage
+- Graphics
+- Screen Size
+- Original Price
+
+## Secondary Market Dataset
+
+**Source:** Web Scraping (Scrapy)
+Contains:
+- Brand
+- Model
+- Refurbished Price
+- Condition
+- Storage
+- Availability
+
+#  Database Design
+Database Name:echochain_db
+Tables:
+- manufacturer_products
+- refurbished_listings
+- analytics_data
+
+# Business KPIs
+- Product Depreciation (%)
+- Price Retention (%)
+- Average Refurbished Price
+- Brand-wise Resale Performance
+- Storage vs Resale Price
+- RAM vs Resale Price
+- Product Condition Distribution
+- Circularity Score
+- Top Performing Brands
+- Most Depreciated Laptop Models
+
+# Dashboard
+The dashboard includes:
+- Executive Summary
+- KPI Cards
+- Brand Performance
+- Original vs Refurbished Price
+- Depreciation Analysis
+- Price Retention
+- Circularity Score
+- Product Condition Distribution
+- Interactive Filters
+
+# Installation & Setup
+
 ## 1. Clone Repository
-git clone <repo_URL>
-cd <folder_name>
+git clone https://github.com/your-username/EchoChain-Laptop-Circular-Economy-Analytics.git
+cd EchoChain-Laptop-Circular-Economy-Analytics
 
 ## 2. Create Virtual Environment
-python -m venv venv
-venv\Scripts\activate
+python -m venv .venv
+.venv\Scripts\activate
 
 ## 3. Upgrade pip
 python -m pip install --upgrade pip
 
-## 4. Install Required Libraries
+## 4. Install Required Packages
 pip install -r requirements.txt
-
+or
+pip install pandas numpy scrapy pyspark mysql-connector-python sqlalchemy jupyter notebook openpyxl
 ## 5. Verify Installation
 python --version
 pip --version
-pyspark --version
+scrapy version
+python -c "import pyspark; print('PySpark Installed')"
 
-## 6. Start Jupyter Notebook
-jupyter notebook
+## 6. Install MySQL
+- MySQL Community Server
+- MySQL Workbench
 
-## 7. Run PySpark
-pyspark
+Create Database
 
-## 8. Download Dataset
+## 7. Create Tables
+mysql -u root -p echochain_db < database/schema.sql
 
-Download datasets from Kaggle.
-https://www.kaggle.com/datasets/owm4096/laptop-prices?resource=download
+## 8. Run Web Scraper
+cd scrapy_project
 
+scrapy crawl cashify
 
-data/raw/
+## 9. Load Data into MySQL
+python database/insert_manufacturer_data.py
 
-## 9. Run Data Cleaning Script
+python database/insert_scraped_data.py
+
+## 10. Run Data Pipeline
+
 python scripts/data_cleaning.py
 
-## 10. Run Feature Engineering
 python scripts/feature_engineering.py
 
-## 11. Run PySpark Pipeline
 python scripts/pyspark_pipeline.py
 
-## 12. Export Final Dataset
+python scripts/kpi_calculation.py
 
-The processed dataset will be saved in
-data/final/
-
-## 13. Open Power BI Dashboard
-
+## 11. Launch Dashboard
 Open
 
-```
 dashboard/EchoChain.pbix
-```
-
 Refresh the data source.
-
-#  Project Workflow
-                Kaggle Datasets
-                       │
-                       ▼
-                Raw CSV Files
-                       │
-                       ▼
-          Data Cleaning (Pandas)
-                       │
-                       ▼
-       Feature Engineering (Python)
-                       │
-                       ▼
-          Data Processing (PySpark)
-                       │
-                       ▼
-          Business KPI Generation
-                       │
-                       ▼
-              Final CSV Output
-                       │
-                       ▼
-              Power BI Dashboard
-
-#  Datasets
-
-The project uses publicly available datasets from Kaggle.
-
-Datasets include:
-
-- Laptop Specifications
-- Laptop Prices
-- Used Laptop Listings
-
-# Business KPIs
-
-The project calculates:
-
-- Average Resale Price
-- Depreciation Percentage
-- Product Lifespan
-- Circularity Score
-- Warranty Impact
-- Brand Performance
-- Product Condition Distribution
-- Top Reselling Products
-
-# Dashboard
-
-The Power BI dashboard includes:
-
-- Executive Summary
-- KPI Cards
-- Brand Analysis
-- Price Comparison
-- Product Lifecycle
-- Circularity Score
-- Depreciation Analysis
-- Interactive Filters
-
-#  Project Pipeline
-
-Raw Data
-    ↓
-Data Cleaning
-    ↓
-Feature Engineering
-    ↓
-PySpark Processing
-    ↓
-KPI Calculation
-    ↓
-CSV Export
-    ↓
-Power BI Dashboard
-
-
-# Future Improvements
-
-- Live Web Scraping
-- Databricks Integration
-- Delta Lake
-- Apache Airflow
-- Docker Deployment
-- Cloud Storage
-- Streamlit Web App
-
-#  Skills Demonstrated
-
-- Data Cleaning
-- Data Wrangling
-- Feature Engineering
-- Data Engineering
-- ETL Pipeline
-- PySpark
-- Business Intelligence
-- Power BI
-- Data Visualization
-- Git
-- GitHub
 
 
 # Resume Project Description

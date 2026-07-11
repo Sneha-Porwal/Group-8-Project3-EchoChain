@@ -1,10 +1,7 @@
 pandas
 numpy
+scrapy
 pyspark
-matplotlib
-seaborn
-scikit-learn
-jupyter
+mysql-connector-python
 notebook
 openpyxl
-kaggle
