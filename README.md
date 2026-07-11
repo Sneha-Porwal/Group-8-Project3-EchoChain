@@ -5,9 +5,7 @@ An end-to-end **Data Engineering & Business Intelligence** project that analyzes
 The project demonstrates a complete data engineering pipeline starting from **web scraping**, **database storage**, **data cleaning**, **feature engineering**, **PySpark processing**, and finally an **interactive Power BI dashboard** for business insights.
 
 #  Project Overview
-
 Manufacturers have complete visibility of their products until the first sale. However, after customers sell those products in the secondary market, manufacturers lose visibility into:
-
 - Product resale value
 - Depreciation trends
 - Customer demand
@@ -17,7 +15,6 @@ Manufacturers have complete visibility of their products until the first sale. H
 EchoChain solves this challenge by combining manufacturer data with refurbished laptop listings collected through web scraping and generating business insights using modern data engineering technologies.
 
 # Problem Statement
-
 Manufacturers know everything about their products before they are sold.
 Once products enter the secondary market, they cannot answer questions such as:
 - Which laptop brands retain their value?
@@ -28,7 +25,6 @@ Once products enter the secondary market, they cannot answer questions such as:
 EchoChain builds a complete analytics pipeline to answer these business questions.
 
 #  Project Objectives
-
 - Collect manufacturer laptop data from Kaggle
 - Scrape refurbished laptop listings using Scrapy
 - Store both datasets in MySQL
@@ -39,21 +35,15 @@ EchoChain builds a complete analytics pipeline to answer these business question
 - Build an executive Power BI dashboard
 
 #  Business Use Case
-
 Suppose Dell wants to understand what happens to its laptops after customers sell them.
-
 EchoChain helps answer questions like:
-
 - Which Dell laptops have the highest resale value?
 - Which models depreciate the fastest?
 - Which laptops are suitable for refurbishment?
 - Which configurations retain maximum market value?
 - How much value is retained after resale?
 
-These insights help organizations improve refurbishment strategies and sustainability initiatives.
-
 #  Tech Stack
-
 ## Programming Language
 - Python
 
@@ -70,7 +60,6 @@ These insights help organizations improve refurbishment strategies and sustainab
 
 ## Database Connectivity
 - MySQL Connector
-- SQLAlchemy
 
 ## Business Intelligence
 - Power BI
@@ -195,6 +184,7 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 or
 pip install pandas numpy scrapy pyspark mysql-connector-python sqlalchemy jupyter notebook openpyxl
+
 ## 5. Verify Installation
 python --version
 pip --version
@@ -217,25 +207,20 @@ scrapy crawl cashify
 
 ## 9. Load Data into MySQL
 python database/insert_manufacturer_data.py
-
 python database/insert_scraped_data.py
 
 ## 10. Run Data Pipeline
 
 python scripts/data_cleaning.py
-
 python scripts/feature_engineering.py
-
 python scripts/pyspark_pipeline.py
-
+python scripts/kpi_calculation.py
 python scripts/kpi_calculation.py
 
 ## 11. Launch Dashboard
 Open
-
 dashboard/EchoChain.pbix
 Refresh the data source.
-
 
 # Resume Project Description
 
