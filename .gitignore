@@ -13,8 +13,6 @@ venv/
 # VS Code
 .vscode/
 
-# MySQL dump files
-*.sql
 
 # Dataset archives
 *.zip
