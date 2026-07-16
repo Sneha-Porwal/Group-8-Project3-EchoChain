@@ -48,7 +48,7 @@ EchoChain helps answer questions like:
 - Python
 
 ## Web Scraping
-- Scrapy
+- Beautifulsoup4
 
 ## Database
 - MySQL
@@ -200,21 +200,23 @@ Create Database
 ## 7. Create Tables
 -mysql -u root -p echochain_db < database/schema.sql
 
-## 8. Run Web Scraper
--cd scrapy_project
--scrapy crawl cashify
-
-## 9. Load Data into MySQL
+## 8. Load Data into MySQL
 -python database/insert_manufacturer_data.py
 -python database/insert_scraped_data.py
 
-## 10. Run Data Pipeline
+## 9. Run Data Pipeline
 
 -python scripts/data_cleaning.py
 -python scripts/feature_engineering.py
 -python scripts/pyspark_pipeline.py
 -python scripts/kpi_calculation.py
 -python scripts/kpi_calculation.py
+
+## 10. Run Data Pipeline
+-python scraper/test_connection.py
+-python scraper/test_scraper.py
+-python scraper/test_parser.py
+-python scraper/run_scraper.py
 
 ## 11. Launch Dashboard
 Open

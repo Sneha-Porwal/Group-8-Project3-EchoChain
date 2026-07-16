@@ -132,7 +132,6 @@ for _, row in df.iterrows():
 # ==========================================
 
 try:
-
     cursor.executemany(sql, records)
     connection.commit()
     print("===================================")

@@ -16,3 +16,7 @@ COUNT(*) AS total_products
 FROM manufacturer_products
 GROUP BY brand
 ORDER BY total_products DESC;
+
+
+SELECT COUNT(*)
+FROM marketplace_products;

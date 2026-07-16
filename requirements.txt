@@ -1,6 +1,7 @@
 pandas
 numpy
-scrapy
+requests
+beautifulsoup4
 pyspark
 mysql-connector-python
 notebook
