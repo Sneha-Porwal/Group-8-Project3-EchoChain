@@ -170,26 +170,26 @@ The dashboard includes:
 # Installation & Setup
 
 ## 1. Clone Repository
-git clone https://github.com/your-username/EchoChain-Laptop-Circular-Economy-Analytics.git
-cd EchoChain-Laptop-Circular-Economy-Analytics
+-git clone https://github.com/your-username/EchoChain-Laptop-Circular-Economy-Analytics.git
+-cd EchoChain-Laptop-Circular-Economy-Analytics
 
 ## 2. Create Virtual Environment
-python -m venv .venv
-.venv\Scripts\activate
+-python -m venv .venv
+-.venv\Scripts\activate
 
 ## 3. Upgrade pip
-python -m pip install --upgrade pip
+-python -m pip install --upgrade pip
 
 ## 4. Install Required Packages
-pip install -r requirements.txt
+-pip install -r requirements.txt
 or
-pip install pandas numpy scrapy pyspark mysql-connector-python sqlalchemy jupyter notebook openpyxl
+-pip install pandas numpy scrapy pyspark mysql-connector-python sqlalchemy jupyter notebook openpyxl
 
 ## 5. Verify Installation
-python --version
-pip --version
-scrapy version
-python -c "import pyspark; print('PySpark Installed')"
+-python --version
+-pip --version
+-scrapy version
+-python -c "import pyspark; print('PySpark Installed')"
 
 ## 6. Install MySQL
 - MySQL Community Server
@@ -198,28 +198,27 @@ python -c "import pyspark; print('PySpark Installed')"
 Create Database
 
 ## 7. Create Tables
-mysql -u root -p echochain_db < database/schema.sql
+-mysql -u root -p echochain_db < database/schema.sql
 
 ## 8. Run Web Scraper
-cd scrapy_project
-
-scrapy crawl cashify
+-cd scrapy_project
+-scrapy crawl cashify
 
 ## 9. Load Data into MySQL
-python database/insert_manufacturer_data.py
-python database/insert_scraped_data.py
+-python database/insert_manufacturer_data.py
+-python database/insert_scraped_data.py
 
 ## 10. Run Data Pipeline
 
-python scripts/data_cleaning.py
-python scripts/feature_engineering.py
-python scripts/pyspark_pipeline.py
-python scripts/kpi_calculation.py
-python scripts/kpi_calculation.py
+-python scripts/data_cleaning.py
+-python scripts/feature_engineering.py
+-python scripts/pyspark_pipeline.py
+-python scripts/kpi_calculation.py
+-python scripts/kpi_calculation.py
 
 ## 11. Launch Dashboard
 Open
-dashboard/EchoChain.pbix
+-dashboard/EchoChain.pbix
 Refresh the data source.
 
 # Resume Project Description
