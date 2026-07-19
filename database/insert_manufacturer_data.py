@@ -5,7 +5,7 @@ from mysql.connector import Error
 # MySQL Configuration
 HOST = "localhost"
 USER = "root"
-PASSWORD = "Tiger"
+PASSWORD = "Ashish@123"
 DATABASE = "echochain_db"
 CSV_PATH = "data/raw/kaggle/manufacturer_laptops.csv"
 

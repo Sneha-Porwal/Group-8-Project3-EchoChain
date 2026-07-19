@@ -15,6 +15,6 @@ HEADERS = {
 MYSQL_CONFIG = {
     "host": "localhost",
     "user": "root",
-    "password": "Tiger",
+    "password": "Ashish@123",
     "database": "echochain_db"
 }
