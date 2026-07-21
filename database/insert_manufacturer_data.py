@@ -1,12 +1,15 @@
+from dotenv import load_dotenv
+import os
 import pandas as pd
 import mysql.connector
 from mysql.connector import Error
 
+load_dotenv()
 # MySQL Configuration
-HOST = "localhost"
-USER = "root"
-PASSWORD = "Ashish@123"
-DATABASE = "echochain_db"
+HOST = os.getenv("DB_HOST")
+USER = os.getenv("DB_USER")
+PASSWORD = os.getenv("DB_PASSWORD")
+DATABASE = os.getenv("DB_NAME")
 CSV_PATH = "data/raw/kaggle/manufacturer_laptops.csv"
 
 # Connect to MySQL

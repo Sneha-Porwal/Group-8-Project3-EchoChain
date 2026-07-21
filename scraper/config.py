@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 # -----------------------------
 # Website Configuration
 # -----------------------------
@@ -11,10 +13,10 @@ HEADERS = {
 # -----------------------------
 # MySQL Configuration
 # -----------------------------
-
+load_dotenv()
 MYSQL_CONFIG = {
-    "host": "localhost",
-    "user": "root",
-    "password": "Ashish@123",
-    "database": "echochain_db"
+    "host": os.getenv("DB_HOST"),
+    "user": os.getenv("DB_USER"),
+    "password": os.getenv("DB_PASSWORD"),
+    "database": os.getenv("DB_NAME")
 }

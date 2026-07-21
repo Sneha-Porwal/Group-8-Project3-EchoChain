@@ -4,5 +4,6 @@ requests
 beautifulsoup4
 pyspark
 mysql-connector-python
+sqlalchemy
 notebook
 openpyxl

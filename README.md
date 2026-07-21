@@ -207,7 +207,7 @@ Create Database
 ## 9. Run Data Pipeline
 
 - python scripts/data_cleaning.py
-- python scripts/feature_engineering.py
+- python scripts/merge_data.py
 - python scripts/pyspark_pipeline.py
 - python scripts/kpi_calculation.py
 - python scripts/kpi_calculation.py

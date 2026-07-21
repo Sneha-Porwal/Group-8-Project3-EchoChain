@@ -1,25 +1,30 @@
+import os
+from dotenv import load_dotenv
 import pandas as pd
+import re
 from sqlalchemy import create_engine
 from urllib.parse import quote_plus
 
-# ==========================
+# ==========================================================
 # MySQL Configuration
-# ==========================
-
-USERNAME = "root"
-PASSWORD = quote_plus("Ashish@123")
-HOST = "localhost"
-DATABASE = "echochain_db"
+# ==========================================================
+load_dotenv()
+USERNAME = os.getenv("DB_USER")
+PASSWORD = quote_plus(os.getenv("DB_PASSWORD"))
+HOST = os.getenv("DB_HOST")
+DATABASE = os.getenv("DB_NAME")
 
 engine = create_engine(
     f"mysql+mysqlconnector://{USERNAME}:{PASSWORD}@{HOST}/{DATABASE}"
 )
 
-print("Connected Successfully!")
+print("=" * 60)
+print(" Connected to MySQL Successfully ")
+print("=" * 60)
 
-# ==========================
-# Read Tables
-# ==========================
+# ==========================================================
+# Load Tables
+# ==========================================================
 
 manufacturer_df = pd.read_sql(
     "SELECT * FROM manufacturer_products",
@@ -31,78 +36,92 @@ marketplace_df = pd.read_sql(
     con=engine
 )
 
-print(f"Manufacturer Records : {len(manufacturer_df)}")
+print(f"\nManufacturer Records : {len(manufacturer_df)}")
 print(f"Marketplace Records  : {len(marketplace_df)}")
 
-# ==========================
+# ==========================================================
 # Brand Standardization
-# ==========================
+# ==========================================================
 
 manufacturer_df["brand"] = (
     manufacturer_df["brand"]
+    .fillna("UNKNOWN")
     .str.upper()
     .str.strip()
 )
 
 marketplace_df["brand"] = (
     marketplace_df["brand"]
+    .fillna("UNKNOWN")
     .str.upper()
     .str.strip()
 )
 
-print("\nBrand Names Standardized Successfully!")
+print("\nBrand Standardization Completed")
 
-print("\nManufacturer Brands:")
-print(sorted(manufacturer_df["brand"].unique()))
+# ==========================================================
+# Processor Extraction From Marketplace Description
+# ==========================================================
 
-print("\nMarketplace Brands:")
-print(sorted(marketplace_df["brand"].unique()))
-# ==========================
-# Extract Processor
-# ==========================
+def extract_processor(description):
 
-import re
-
-def extract_processor(desc):
-
-    if pd.isna(desc):
+    if pd.isna(description):
         return "UNKNOWN"
 
+    description = str(description).upper()
+
     patterns = [
-        r'AMD\s+E\d-\d+[A-Z]*',
-        r'Core\s+i[3579]-\d+[A-Z]*',
-        r'Core\s+i[3579]\s+\d+[A-Z]*',
-        r'Core\s+i[3579]\s+\d+\.\d+GHz',
-        r'Pentium\s+[A-Z]?\d+',
-        r'Celeron\s+[A-Z]?\d+',
-        r'Ryzen\s+[3579][-\s]?\d+[A-Z]*',
-        r'Athlon\s+\w+\s*\d+[A-Z]*',
-        r'Apple\s+M\d'
+
+        r'CORE\s+I3[- ]?\d+[A-Z]*',
+        r'CORE\s+I5[- ]?\d+[A-Z]*',
+        r'CORE\s+I7[- ]?\d+[A-Z]*',
+        r'CORE\s+I9[- ]?\d+[A-Z]*',
+
+        r'RYZEN\s+3[- ]?\d+[A-Z]*',
+        r'RYZEN\s+5[- ]?\d+[A-Z]*',
+        r'RYZEN\s+7[- ]?\d+[A-Z]*',
+        r'RYZEN\s+9[- ]?\d+[A-Z]*',
+
+        r'PENTIUM\s+[A-Z]?\d+',
+        r'CELERON\s+[A-Z]?\d+',
+        r'ATHLON\s+\w+\s*\d+[A-Z]*',
+
+        r'APPLE\s+M1',
+        r'APPLE\s+M2',
+        r'APPLE\s+M3'
     ]
 
     for pattern in patterns:
-        match = re.search(pattern, str(desc), re.IGNORECASE)
+
+        match = re.search(pattern, description)
+
         if match:
             return match.group().strip()
 
     return "UNKNOWN"
 
-marketplace_df["processor_extracted"] = marketplace_df["description"].apply(extract_processor)
+marketplace_df["processor_extracted"] = (
+    marketplace_df["description"]
+    .apply(extract_processor)
+)
 
-print("\nProcessor Extracted Successfully!")
-# ==========================
+print("Processor Extraction Completed")
+# ==========================================================
 # Processor Standardization
-# ==========================
+# ==========================================================
 
 manufacturer_df["processor_name"] = (
+
     manufacturer_df["processor_name"]
+    .fillna("UNKNOWN")
     .str.upper()
     .str.replace("-", " ", regex=False)
     .str.replace(r"\s+", " ", regex=True)
     .str.strip()
-)
 
+)
 marketplace_df["processor_extracted"] = (
+
     marketplace_df["processor_extracted"]
     .fillna("UNKNOWN")
     .str.upper()
@@ -110,107 +129,17 @@ marketplace_df["processor_extracted"] = (
     .str.replace(r"\s+", " ", regex=True)
     .str.strip()
 )
-
-print("\nProcessor Names Standardized Successfully!")
-
-print("\nManufacturer Processors:")
-print(manufacturer_df["processor_name"].drop_duplicates().head(15).to_list())
-
-print("\nMarketplace Processors:")
-print(marketplace_df["processor_extracted"].drop_duplicates().head(15).to_list())
-# ==========================
-# Merge Data on Brand
-# ==========================
-
-merged_df = pd.merge(
-    marketplace_df,
-    manufacturer_df,
-    on="brand",
-    how="left",
-    suffixes=("_market", "_manufacturer")
-)
-
-print("\nMerge Completed Successfully!")
-
-print("\nMerged Records :", len(merged_df))
-
-print("\nMerged Sample:\n")
-print(
-    merged_df[
-        [
-            "brand",
-            "product_name",
-            "processor_extracted",
-            "model_name",
-            "processor_name"
-        ]
-    ].head(15)
-)
-# ==========================
-# Partial Processor Matching
-# ==========================
-
-matched_df = merged_df[
-    merged_df.apply(
-        lambda row:
-        row["processor_extracted"] in row["processor_name"]
-        if pd.notna(row["processor_name"])
-        else False,
-        axis=1
-    )
-]
-
-print("\nProcessor Matching Completed!")
-
-print("Matched Records :", len(matched_df))
-
-print("\nMatched Sample:\n")
-
-print(
-    matched_df[
-        [
-            "brand",
-            "product_name",
-            "processor_extracted",
-            "model_name",
-            "processor_name"
-        ]
-    ].head(20)
-)
-# ==========================
-# Match Brand + Processor
-# ==========================
-
-matched_df = merged_df[
-    merged_df["processor_extracted"] ==
-    merged_df["processor_name"]
-]
-
-print("\nProcessor Matching Completed!")
-
-print("Matched Records :", len(matched_df))
-
-print("\nMatched Sample:\n")
-
-print(
-    matched_df[
-        [
-            "brand",
-            "product_name",
-            "processor_extracted",
-            "model_name",
-            "processor_name"
-        ]
-    ].head(20)
-)
-import re
+print("Processor Standardization Completed")
+# ==========================================================
+# Processor Family
+# ==========================================================
 
 def processor_family(cpu):
 
     if pd.isna(cpu):
         return "UNKNOWN"
 
-    cpu = cpu.upper()
+    cpu = str(cpu).upper()
 
     if "CORE I3" in cpu:
         return "CORE I3"
@@ -251,79 +180,356 @@ def processor_family(cpu):
     elif "APPLE M2" in cpu:
         return "APPLE M2"
 
+    elif "APPLE M3" in cpu:
+        return "APPLE M3"
+
     return "OTHER"
-manufacturer_df["processor_family"] = manufacturer_df["processor_name"].apply(processor_family)
 
-marketplace_df["processor_family"] = marketplace_df["processor_extracted"].apply(processor_family)
+manufacturer_df["processor_family"] = (
+    manufacturer_df["processor_name"]
+    .apply(processor_family)
+)
 
-print("\nProcessor Family Created Successfully!")
+marketplace_df["processor_family"] = (
+    marketplace_df["processor_extracted"]
+    .apply(processor_family)
+)
 
-print(manufacturer_df["processor_family"].value_counts().head(10))
+print("Processor Family Created")
 
-print()
+# ==========================================================
+# RAM Extraction
+# ==========================================================
 
-print(marketplace_df["processor_family"].value_counts().head(10))
-# ==========================
-# Add Processor Family to Merged Data
-# ==========================
+def extract_ram(text):
 
-merged_df["processor_family_market"] = merged_df["processor_extracted"].apply(processor_family)
+    if pd.isna(text):
+        return None
 
-merged_df["processor_family_manufacturer"] = merged_df["processor_name"].apply(processor_family)
+    match = re.search(r'(\d+)\s*GB', str(text).upper())
 
-# ==========================
-# Add Processor Family to Merged Data
-# ==========================
+    if match:
+        return int(match.group(1))
 
-merged_df["processor_family_market"] = merged_df["processor_extracted"].apply(processor_family)
+    return None
 
-merged_df["processor_family_manufacturer"] = merged_df["processor_name"].apply(processor_family)
+marketplace_df["ram_gb"] = (
+    marketplace_df["description"]
+    .apply(extract_ram)
+)
 
-# ==========================
-# Add Processor Family to Merged Data
-# ==========================
+print("RAM Extracted")
 
-merged_df["processor_family_market"] = merged_df["processor_extracted"].apply(processor_family)
+# ==========================================================
+# SSD Extraction
+# ==========================================================
 
-merged_df["processor_family_manufacturer"] = merged_df["processor_name"].apply(processor_family)
+def extract_ssd(text):
 
-# ==========================
-# Smart Processor Matching
-# ==========================
+    if pd.isna(text):
+        return None
 
-matched_df = merged_df[
+    text = str(text).upper()
+
+    match = re.search(r'(\d+)\s*GB\s*SSD', text)
+
+    if match:
+        return int(match.group(1))
+
+    match = re.search(r'(\d+)\s*TB\s*SSD', text)
+
+    if match:
+        return int(match.group(1)) * 1024
+
+    return None
+
+marketplace_df["ssd_gb"] = (
+    marketplace_df["description"]
+    .apply(extract_ssd)
+)
+
+print("SSD Extracted")
+
+# ==========================================================
+# Display Sample
+# ==========================================================
+
+print("\nManufacturer Sample")
+print(
+    manufacturer_df[
+        [
+            "brand",
+            "model_name",
+            "processor_name",
+            "processor_family",
+            "ram_gb",
+            "ssd_gb"
+        ]
+    ].head()
+)
+
+print("\nMarketplace Sample")
+print(
+    marketplace_df[
+        [
+            "brand",
+            "product_name",
+            "processor_extracted",
+            "processor_family",
+            "ram_gb",
+            "ssd_gb"
+        ]
+    ].head()
+)
+# ==========================================================
+# Merge on Brand
+# ==========================================================
+
+print("\nCreating Brand Merge...")
+
+merged_df = pd.merge(
+    marketplace_df,
+    manufacturer_df,
+    on="brand",
+    how="inner",
+    suffixes=("_market", "_manufacturer")
+)
+
+print(f"Records after Brand Merge : {len(merged_df)}")
+
+# ==========================================================
+# Filter by Processor Family
+# ==========================================================
+
+merged_df = merged_df[
     merged_df["processor_family_market"] ==
     merged_df["processor_family_manufacturer"]
 ]
 
-print("\nSmart Matching Completed!")
+print(f"Records after Processor Match : {len(merged_df)}")
 
-print("Matched Records :", len(matched_df))
+# ==========================================================
+# RAM Matching
+# ==========================================================
 
-print("\nMatched Sample:\n")
+merged_df = merged_df[
+    (
+        merged_df["ram_gb_market"].isna()
+    )
+    |
+    (
+        merged_df["ram_gb_manufacturer"].isna()
+    )
+    |
+    (
+        abs(
+            merged_df["ram_gb_market"] -
+            merged_df["ram_gb_manufacturer"]
+        ) <= 4
+    )
+]
 
-print(
-    matched_df[
-        [
-            "brand",
-            "product_name",
-            "processor_family_market",
-            "model_name",
-            "processor_family_manufacturer"
-        ]
-    ].head(20)
+print(f"Records after RAM Match : {len(merged_df)}")
+
+# ==========================================================
+# SSD Matching
+# ==========================================================
+
+merged_df = merged_df[
+    (
+        merged_df["ssd_gb_market"].isna()
+    )
+    |
+    (
+        merged_df["ssd_gb_manufacturer"].isna()
+    )
+    |
+    (
+        abs(
+            merged_df["ssd_gb_market"] -
+            merged_df["ssd_gb_manufacturer"]
+        ) <= 256
+    )
+]
+
+print(f"Records after SSD Match : {len(merged_df)}")
+
+# ==========================================================
+# Similarity Score
+# ==========================================================
+
+def calculate_score(row):
+
+    score = 0
+
+    # Brand
+    score += 30
+
+    # Processor
+    if row["processor_family_market"] == row["processor_family_manufacturer"]:
+        score += 30
+
+    # RAM
+    if (
+        pd.notna(row["ram_gb_market"])
+        and
+        pd.notna(row["ram_gb_manufacturer"])
+    ):
+
+        diff = abs(
+            row["ram_gb_market"] -
+            row["ram_gb_manufacturer"]
+        )
+
+        if diff == 0:
+            score += 20
+
+        elif diff <= 4:
+            score += 10
+
+    # SSD
+    if (
+        pd.notna(row["ssd_gb_market"])
+        and
+        pd.notna(row["ssd_gb_manufacturer"]
+    )):
+
+        diff = abs(
+            row["ssd_gb_market"] -
+            row["ssd_gb_manufacturer"]
+        )
+
+        if diff == 0:
+            score += 20
+
+        elif diff <= 256:
+            score += 10
+
+    return score
+
+
+merged_df["similarity_score"] = merged_df.apply(
+    calculate_score,
+    axis=1
 )
-# ==========================
-# Save Final Matched Data
-# ==========================
-import os
 
-print("Current Working Directory:", os.getcwd())
-print("Processed Folder Exists:", os.path.exists("data/processed"))
-matched_df.to_csv(
-    "data/processed/final_matched_data.csv",
+# ==========================================================
+# Sort Results
+# ==========================================================
+
+merged_df = merged_df.sort_values(
+    by="similarity_score",
+    ascending=False
+)
+
+# ==========================================================
+# Keep Important Columns
+# ==========================================================
+
+similar_products = merged_df[
+    [
+        "product_name",
+        "model_name",
+        "brand",
+
+        "processor_family_market",
+        "processor_family_manufacturer",
+
+        "ram_gb_market",
+        "ram_gb_manufacturer",
+
+        "ssd_gb_market",
+        "ssd_gb_manufacturer",
+
+        "price",
+        "original_price",
+
+        "similarity_score"
+    ]
+]
+
+# ==========================================================
+# Rename Columns
+# ==========================================================
+
+similar_products.columns = [
+
+    "Marketplace Product",
+    "Manufacturer Product",
+    "Brand",
+
+    "Marketplace Processor",
+    "Manufacturer Processor",
+
+    "Marketplace RAM",
+    "Manufacturer RAM",
+
+    "Marketplace SSD",
+    "Manufacturer SSD",
+
+    "Marketplace Price",
+    "Manufacturer Price",
+
+    "Similarity Score"
+
+]
+
+# ==========================================================
+# Keep Top Recommendation Per Marketplace Product
+# ==========================================================
+
+similar_products = (
+    similar_products
+    .sort_values(
+        "Similarity Score",
+        ascending=False
+    )
+    .drop_duplicates(
+        subset=["Marketplace Product"]
+    )
+)
+
+print("\nTop Similar Products")
+print(similar_products.head(20))
+
+# ==========================================================
+# Save CSV
+# ==========================================================
+os.makedirs(
+    "data/processed",
+    exist_ok=True
+)
+
+similar_products.to_csv(
+    "data/processed/similar_products.csv",
     index=False
-)
 
-print("\nFinal Matched Data Saved Successfully!")
-print("Location : data/processed/final_matched_data.csv")
+)
+print("\nCSV Saved Successfully")
+
+print("Location : data/processed/similar_products.csv")
+
+# ==========================================================
+# Save to MySQL
+# ==========================================================
+
+similar_products.to_sql(
+    "similar_products",
+    con=engine,
+    if_exists="replace",
+    index=False
+
+)
+print("Table 'similar_products' created successfully.")
+
+# ==========================================================
+# Summary
+# ==========================================================
+
+print("\n" + "=" * 60)
+print(" EchoChain Similar Product Mapping Completed ")
+print("=" * 60)
+
+print(f"Manufacturer Records : {len(manufacturer_df)}")
+print(f"Marketplace Records  : {len(marketplace_df)}")
+print(f"Final Similar Products : {len(similar_products)}")
