@@ -1,0 +1,11 @@
+Marketplace Product,Manufacturer Product,Brand,Marketplace Processor,Manufacturer Processor,Marketplace RAM,Manufacturer RAM,Marketplace SSD,Manufacturer SSD,Marketplace Price,Manufacturer Price,Similarity Score,Price Difference,Saving %
+Dell Vostro 15...,Dell Inspiron 7420 Laptop,DELL,CORE I5,CORE I5,4,8,,512,497.17,86990.0,70,86492.83,99.43
+Acer Extensa 1...,Acer Aspire 3 A315-58 Laptop,ACER,CORE I5,CORE I5,4,8,,0,439.73,62999.0,70,62559.27,99.3
+Acer Aspire ES...,Acer Nitro 5 AN515-57 UN.QEHSI.004 Laptop,ACER,CORE I5,CORE I5,4,8,128.0,256,485.9,62999.0,80,62513.1,99.23
+Aspire E1-510,Acer Aspire 3 A314-35 UN.K0SSI.040 Laptop,ACER,PENTIUM,PENTIUM,4,4,,256,306.99,37990.0,80,37683.01,99.19
+HP 250 G3,HP Pavilion 15s-fq5010TU Laptop,HP,CORE I5,CORE I5,4,8,,512,520.99,63350.0,70,62829.01,99.18
+Dell Vostro 15,Dell Inspiron 3520 Laptop,DELL,CORE I5,CORE I5,4,8,128.0,256,488.78,57990.0,80,57501.22,99.16
+HP 350 G1,HP Pavilion 14-dv2019TU Laptop,HP,CORE I5,CORE I5,4,8,,512,577.99,62999.0,70,62421.01,99.08
+Asus ASUSPRO B...,Asus ROG Flow Z13 2022 GZ301ZC-LD123WS Gaming Laptop,ASUS,CORE I7,CORE I7,16,16,512.0,512,1381.13,150790.0,100,149408.87,99.08
+Pavilion,HP Pavilion 14-dv2019TU Laptop,HP,CORE I5,CORE I5,6,8,,512,609.99,62999.0,70,62389.01,99.03
+Asus VivoBook...,Asus BR1100FKA-BP1104W Laptop,ASUS,CELERON,CELERON,4,4,128.0,128,295.99,29990.0,100,29694.01,99.01

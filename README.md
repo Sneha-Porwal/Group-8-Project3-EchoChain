@@ -208,9 +208,8 @@ Create Database
 
 - python scripts/data_cleaning.py
 - python scripts/merge_data.py
-- python scripts/pyspark_pipeline.py
-- python scripts/kpi_calculation.py
-- python scripts/kpi_calculation.py
+- python scripts/kpi_generation.py
+
 
 ## 10. Run Scrapper
 - python scraper/test_connection.py
